@@ -1,0 +1,18 @@
+10 REM -- mozaika symetricka podle osy x a y
+20 REM -- (c) 2017
+30 REM -- Martin Pokorny
+40 BORDER 0: PAPER 0: CLS: RANDOMIZE
+50 GO SUB 8000
+60 LET cx=15: LET cy=9
+100 LET dx=RND*15: LET dy=RND*9
+110 LET b=INT(RND+0.5): LET k=(INT(RND+0.4))*5
+120 REM .. PRINT AT 0,0;b; AT 1,0;k
+130 PRINT INK k; BRIGHT b; AT cy-dy,cx-dx;CHR$ 144
+140 PRINT INK k; BRIGHT b; AT cy+1+dy,cx-dx;CHR$ 144
+150 PRINT INK k; BRIGHT b; AT cy-dy,cx+1+dx;CHR$ 144
+160 PRINT INK k; BRIGHT b; AT cy+1+dy,cx+1+dx;CHR$ 144
+200 GO TO 100
+8000 RESTORE 8100
+8010 FOR i=0 TO 7: READ B: POKE USR "A"+i,B: NEXT i
+8020 RETURN
+8100 DATA 0,0,60,60,60,60,0,0
