@@ -9,6 +9,8 @@ For more information about ZX Spectrum and UDG see:
 ### Requirements:
 - Java runtime environment
 
-### Screenshot:
+### Download:
+[zxs_udg_editor-v0.4.zip](dist_zip/zxs_udg_editor-v0.4.zip)
 
+### Screenshot:
 ![screenshot_1](screenshots/Screenshot_v0.4_1.png)

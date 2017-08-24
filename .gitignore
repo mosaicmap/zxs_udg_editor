@@ -24,3 +24,6 @@ hs_err_pid*
 dist/
 build/
 
+# Temp info
+_tmp/
+_temp/
