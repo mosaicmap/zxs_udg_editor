@@ -22,6 +22,7 @@ hs_err_pid*
 
 # Compiled 
 dist/
+dist_zip/
 build/
 
 # Temp info
