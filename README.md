@@ -9,8 +9,10 @@ For more information about ZX Spectrum and UDG see:
 ### Requirements
 Java runtime environment
 
-### Built With
-Netbeans
+### How to Built
+1. install JDK, install Netbeans
+1. Open project in Netbeans
+2. Select "Clean and build project" in menu
 
 ### Screenshot
 ![screenshot_1](screenshots/Screenshot_v0.4_1.png)
