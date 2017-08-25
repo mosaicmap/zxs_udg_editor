@@ -6,8 +6,11 @@ Simple UDG (User Defined Graphics) character editor for BASIC of historical comp
 For more information about ZX Spectrum and UDG see: 
 [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum), [ZX Spectrum character set](https://en.wikipedia.org/wiki/ZX_Spectrum_character_set) on Wikipedia.
 
-### Requirements:
-- Java runtime environment
+### Requirements
+Java runtime environment
 
-### Screenshot:
+### Built With
+Netbeans
+
+### Screenshot
 ![screenshot_1](screenshots/Screenshot_v0.4_1.png)
