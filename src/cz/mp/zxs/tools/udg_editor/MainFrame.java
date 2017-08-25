@@ -382,6 +382,7 @@ public class MainFrame extends JFrame {
         super.setVisible(b);
     }
 
+    
     /**
      * Vrátí komponentu, která má jen min šířku.
      * Pomůcka pro zajištění min. velikosti komponenty v GridBagLayoutu.
