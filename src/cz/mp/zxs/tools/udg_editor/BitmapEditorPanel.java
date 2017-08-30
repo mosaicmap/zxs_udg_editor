@@ -522,18 +522,24 @@ public class BitmapEditorPanel extends JPanel {
      * Získá data bitmapy jako desítová čísla v texové podobě všech řádků znaku.
      * <p>
      * hodnoty jsou v pořadí znaků:
-     * <tt><pre>
-     * totalNumOfChars = 0:  (číslo v 'matici' číslo znaku)
-     *  0
-     * totalNumOfChars = 1:
-     *  0 1
-     *  2 3
-     * totalNumOfChars = 1:
-     *  0 1 2
-     *  3 4 5
-     *  6 7 8
+     * <p>
+     * totalNumOfChars = 1:  (číslo v tabulce = číslo znaku)
+     * <table>
+     * <tr> <td>0</td> </tr>
+     * </table>
+     * totalNumOfChars = 4:
+     * <table>
+     * <tr> <td>0</td><td>1</td> </tr>
+     * <tr> <td>2</td><td>3</td> </tr>
+     * </table>
+     * totalNumOfChars = 9:
+     * <table>
+     * <tr> <td>0</td><td>1</td><td>2</td> </tr>
+     * <tr> <td>3</td><td>4</td><td>5</td> </tr>
+     * <tr> <td>6</td><td>7</td><td>8</td> </tr>
+     * </table>
      * ...
-     * </pre></tt>
+     * <p>
      * Hodnoty v každém znaku jsou brány po řádcích od shora.
      * 
      * @return 
