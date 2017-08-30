@@ -376,18 +376,24 @@ public class SquareBooleanBitmap implements Cloneable {
      * Získá data bitmapy jako číselné hodnoty jednotlivých řádků znaku.
      * <p>
      * hodnoty jsou v pořadí znaků:
-     * <tt><pre>
-     * totalNumOfChars = 0:  (číslo v 'matici' číslo znaku)
-     *  0
-     * totalNumOfChars = 1:
-     *  0 1
-     *  2 3
-     * totalNumOfChars = 1:
-     *  0 1 2
-     *  3 4 5
-     *  6 7 8
+     * <p>
+     * totalNumOfChars = 1:  (číslo v tabulce = číslo znaku)
+     * <table>
+     * <tr> <td>0</td> </tr>
+     * </table>
+     * totalNumOfChars = 4:
+     * <table>
+     * <tr> <td>0</td><td>1</td> </tr>
+     * <tr> <td>2</td><td>3</td> </tr>
+     * </table>
+     * totalNumOfChars = 9:
+     * <table>
+     * <tr> <td>0</td><td>1</td><td>2</td> </tr>
+     * <tr> <td>3</td><td>4</td><td>5</td> </tr>
+     * <tr> <td>6</td><td>7</td><td>8</td> </tr>
+     * </table>
      * ...
-     * </pre></tt>
+     * <p>
      * Hodnoty v každém znaku jsou brány po řádcích od shora.
      * 
      * @return
@@ -417,18 +423,24 @@ public class SquareBooleanBitmap implements Cloneable {
      * Získá data bitmapy jako desítová čísla v texové podobě všech řádků znaku.
      * <p>
      * hodnoty jsou v pořadí znaků:
-     * <tt><pre>
-     * totalNumOfChars = 0:  (číslo v 'matici' číslo znaku)
-     *  0
-     * totalNumOfChars = 1:
-     *  0 1
-     *  2 3
-     * totalNumOfChars = 1:
-     *  0 1 2
-     *  3 4 5
-     *  6 7 8
+     * <p>
+     * totalNumOfChars = 1:  (číslo v tabulce = číslo znaku)
+     * <table>
+     * <tr> <td>0</td> </tr>
+     * </table>
+     * totalNumOfChars = 4:
+     * <table>
+     * <tr> <td>0</td><td>1</td> </tr>
+     * <tr> <td>2</td><td>3</td> </tr>
+     * </table>
+     * totalNumOfChars = 9:
+     * <table>
+     * <tr> <td>0</td><td>1</td><td>2</td> </tr>
+     * <tr> <td>3</td><td>4</td><td>5</td> </tr>
+     * <tr> <td>6</td><td>7</td><td>8</td> </tr>
+     * </table>
      * ...
-     * </pre></tt>
+     * <p>
      * Hodnoty v každém znaku jsou brány po řádcích od shora.
      * 
      * @return 
@@ -589,18 +601,24 @@ public class SquareBooleanBitmap implements Cloneable {
      * Z dat vyplní jeden znak 8x8 v bitmapě.
      * <p>
      * postup vyplňování čterců 8x8 px (charNum):
-     * <tt><pre>
-     * totalNumOfChars = 0:  (číslo v 'matici' značí charNum)
-     *  0
-     * totalNumOfChars = 1:
-     *  0 1
-     *  2 3
-     * totalNumOfChars = 1:
-     *  0 1 2
-     *  3 4 5
-     *  6 7 8
+     * <p>
+     * totalNumOfChars = 1:  (číslo v tabulce = číslo znaku)
+     * <table>
+     * <tr> <td>0</td> </tr>
+     * </table>
+     * totalNumOfChars = 4:
+     * <table>
+     * <tr> <td>0</td><td>1</td> </tr>
+     * <tr> <td>2</td><td>3</td> </tr>
+     * </table>
+     * totalNumOfChars = 9:
+     * <table>
+     * <tr> <td>0</td><td>1</td><td>2</td> </tr>
+     * <tr> <td>3</td><td>4</td><td>5</td> </tr>
+     * <tr> <td>6</td><td>7</td><td>8</td> </tr>
+     * </table>
      * ...
-     * </pre></tt>
+     * <p>
      * 
      * @param charNum  číslo znaku od 0 do totalNumOfChars-1
      * @param data  pole délky {@linkplain #CHAR_SIZE} s
@@ -669,11 +687,6 @@ public class SquareBooleanBitmap implements Cloneable {
      */
     private boolean[][] getBitmapCopyImpl() {
         boolean[][] result = new boolean[dimPxs][dimPxs];
-//        for(int i=0; i<dimPxs; i++) {
-//            for(int j=0; j<dimPxs; j++) {
-//                result[i][j] = bitmap[i][j];
-//            }
-//        }
         // NE: System.arraycopy(this.bitmap, 0, result, 0, dimPxs); // NE, je pro 1D pole !
         for(int i=0; i<dimPxs; i++) {
             System.arraycopy(this.bitmap[i], 0, result[i], 0, dimPxs);
