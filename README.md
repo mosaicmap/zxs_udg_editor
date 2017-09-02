@@ -1,4 +1,4 @@
-![icon](res4dist/icon_32.png) zxs_udg_editor
+zxs_udg_editor ![icon](res4dist/icon_32.png)
 ==============
 
 Simple UDG (User Defined Graphics) character editor for BASIC of historical computer ZX Spectrum.
