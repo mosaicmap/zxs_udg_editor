@@ -7,8 +7,6 @@
 
 package cz.mp.zxs.tools.udg_editor;
 
-// TODO nějaké normální logování
-
 /**
  * ZX Spectrum UDG Editor.
  * 
