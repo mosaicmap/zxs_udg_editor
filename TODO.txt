@@ -1,6 +1,9 @@
 
 
-- normální logování
+- normální logování -- SLF4J + logback/log4j/?
+
+- přidat možnost exportu do formátu XBM
+  (zvážit možnost exportu do PNG)
 
 - GUI
     
