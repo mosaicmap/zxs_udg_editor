@@ -2,13 +2,7 @@
 
 - normální logování -- SLF4J + logback/log4j/?
 
-- přidat možnost exportu do formátu XBM
-  (zvážit možnost exportu do PNG)
-
 - GUI
     
     - při vyšším rozlišení displeje, lépe při vyšším DPI, zobrazovat náhledy v previewer větší
     
-    - &  DATA 0,16,40,40,16,42,68,58
-      ikony   
-
