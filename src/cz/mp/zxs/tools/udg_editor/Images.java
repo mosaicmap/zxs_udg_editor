@@ -59,10 +59,13 @@ public class Images {
     public static final String COPY = "copy.png";
     public static final String PASTE = "paste.png";
 
-    // 16 x 8
-    public static final String EXPORT_AND_COPY = "export_and_copy_1.png";
-    // 16 x 8
-    public static final String PASTE_AND_FILL = "paste_and_fill_1.png";
+    // 48 x 16
+    public static final String EXPORT_AND_COPY = "export_and_copy_2.png";
+    // 40 x 16
+    public static final String EXPORT_TO_XBM = "export_to_xbm_2.png";
+    // 48 x 16
+    public static final String PASTE_AND_FILL = "paste_and_fill_2.png";
+    
     
     
     /**
