@@ -14,9 +14,11 @@ import javax.swing.UIManager;
 
 
 /**
- *
+ * Zobrazení {@linkplain SquareBooleanBitmap} v mřížce.
+ * 
  * @author Martin Pokorný
  * @see SquareBooleanBitmap
+ * @see BitmapPreviewPanel
  */
 public class BitmapViewPanel extends JPanel {
 

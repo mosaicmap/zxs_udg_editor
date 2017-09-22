@@ -7,12 +7,13 @@
 
 package cz.mp.zxs.tools.udg_editor;
 
+
 /**
  * ZX Spectrum UDG Editor.
  * 
  * @author Martin Pokorný
  */
-public class Main {
+public class Main {    
 
     public static final String VERSION_SPEC = 
             Main.class.getPackage().getSpecificationVersion(); // viz build.xml
@@ -40,31 +41,20 @@ public class Main {
     
     /** */
     public static void main(String[] args) {
-        
-//        boolean optHelp = false;
         boolean optVersion = false;
         
         for(int i = 0; i < args.length; i++) {
             String opt = args[i].trim().toLowerCase();
-//            if(opt.equals("--help") || opt.equals("-h")) {
-//                optHelp = true;
-//            }
-            if(opt.equals("--version")) {
+            if (opt.equals("--version")) {
                 optVersion = true;
             }
         }
-        
-//        if (optHelp) {
-//            printHelp();
-//            System.exit(0);
-//        }
         if (optVersion) {
             printVersion();
             System.exit(0);
         } 
         
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
-//        java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
                 MainFrame.getInstance().setVisible(true);

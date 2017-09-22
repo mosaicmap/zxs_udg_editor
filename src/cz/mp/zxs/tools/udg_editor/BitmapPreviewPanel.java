@@ -15,7 +15,7 @@ import javax.swing.UIManager;
 
 
 /**
- * Zobrazení {@linkplain SquareBooleanBitmap} v GUI.
+ * Zobrazení malého náhledu {@linkplain SquareBooleanBitmap} v GUI.
  * 
  * @author Martin Pokorný
  * @see SquareBooleanBitmap

@@ -549,6 +549,39 @@ public class BitmapEditorPanel extends JPanel {
     }
     
     /**
+     * Získá data v jednoduchém formátu bitmapových obrázků XMB X11.
+     * <p>
+     * Princip:
+     * Data se z bitmapy čtou vždy po řádcích vždy po jednom bytu. 
+     * Pokud je šířka bitmapy nedělitelná 8, doplní se nulami zprava.
+     * Data každého bytu jsou v pořadí: lsb vlevo, msb vpravo.
+     * Ve výsledném souboru jsou data bitmapy zakódována jako pole 
+     * typu {@code unsigned char}, kde hodnoty jsou v hexadec formátu.
+     * Viz ukázky níže.
+     * <p>
+     * Např. pro řádek 16 b: {@code 10000000 11111111}
+     * bude výsledek: {@code 0x01 0xff}
+     * <p>
+     * Např. pro řádek 12 b:  10000000 1111
+     * bude výsledek: {@code 0x01 0x0f}
+     * <p>
+     * Ukázkový obsah souboru pro bitmapu 8x8:
+     * <tt><pre>
+     * #define pokus_width 8
+     * #define pokus_height 8
+     * static unsigned char pokus_bits[] = {
+     *   0xff, 0x55, 0x15, 0x15, 0x05, 0x05, 0x01, 0x01};
+     * </pre></tt>
+     * 
+     * @param name  toto jméno je použito uvnitř souboru jako prefix pro
+     *      {@code _width, _height, _bits}.
+     * @return
+     */
+    public String getDataAsXBM(String name) {
+        return bmap.getDataAsXBM(name);
+    }
+    
+    /**
      * 
      * @param data data desítkově oddělená čárkou; 
      *      např. {@code DATA 1,2,4,0,55,90,128,254} 
@@ -570,7 +603,7 @@ public class BitmapEditorPanel extends JPanel {
         return result;
     }    
 
-    // viz repaintBmap()
+    // používá metodu repaintBmap()
     @Override
     public void repaint() {
         super.repaint();

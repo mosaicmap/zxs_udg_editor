@@ -461,8 +461,87 @@ public class SquareBooleanBitmap implements Cloneable {
         sb.append(data[data.length-1]);
         return sb.toString();
     }
+        
+    /**
+     * Získá data v jednoduchém formátu bitmapových obrázků XMB X11.
+     * <p>
+     * Princip:
+     * Data se z bitmapy čtou vždy po řádcích vždy po jednom bytu. 
+     * Pokud je šířka bitmapy nedělitelná 8, doplní se nulami zprava.
+     * Data každého bytu jsou v pořadí: lsb vlevo, msb vpravo.
+     * Ve výsledném souboru jsou data bitmapy zakódována jako pole 
+     * typu {@code unsigned char}, kde hodnoty jsou v hexadec formátu.
+     * Viz ukázky níže.
+     * <p>
+     * Např. pro řádek 16 b: {@code 10000000 11111111}
+     * bude výsledek: {@code 0x01 0xff}
+     * <p>
+     * Např. pro řádek 12 b:  10000000 1111
+     * bude výsledek: {@code 0x01 0x0f}
+     * <p>
+     * Ukázkový obsah souboru pro bitmapu 8x8:
+     * <tt><pre>
+     * #define pokus_width 8
+     * #define pokus_height 8
+     * static unsigned char pokus_bits[] = {
+     *   0xff, 0x55, 0x15, 0x15, 0x05, 0x05, 0x01, 0x01};
+     * </pre></tt>
+     * 
+     * @param name  toto jméno je použito uvnitř souboru jako prefix pro
+     *      {@code _width, _height, _bits}.
+     * @return
+     */
+    public String getDataAsXBM(String name) {
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("name is blank");
+        }
+        
+        StringBuilder result = new StringBuilder(512);
+        result.append("#define ").append(name).append("_width ").append(dimPxs).append("\n");
+        result.append("#define ").append(name).append("_height ").append(dimPxs).append("\n");
+        result.append("static unsigned char ").append(name).append("_bits[] = {");
+        
+        for (int row=0; row<dimPxs; row++)  {
+            if (row % CHAR_SIZE == 0) {
+                result.append("\n  ");
+            }
+
+            final int[] binVals = new int[] { 1, 2, 4, 8, 16, 32, 64, 128 };
+            int x = 0;    // pozice v řádce -- 0 až dimPxs-1
+            int bit = 0;  // pozice v řádce -- 0 až 7
+            int charLineVal = 0;    // výsledná hodnota bytu řádky (0 až 255)
+            while (x < dimPxs) {
+                bit = x % CHAR_SIZE;
+
+                charLineVal += 
+                        (this.bitmap[x][row] == true ? 1 : 0) * binVals[bit];
+                if (bit == CHAR_SIZE - 1) {
+                    // zapiš hodnotu v hexa a začni novou hodnotu
+                    if (charLineVal <= 15) {
+                        result.append("0x0");
+                    }
+                    else {
+                        result.append("0x");
+                    }
+                    result.append(Integer.toHexString(charLineVal));                    
+                    if (! (row == dimPxs-1 && x == dimPxs-1)) { // = není to poslední řádek posledního znaku
+                        result.append(", ");
+                    }
+                    
+                    charLineVal = 0;
+                }                
+                x++;
+            }
+        }
+        result.append("};").append("\n");
+        
+        return result.toString();
+    }
+    
     
     /**
+     * Regexp vzor pro parsování binárních hodnot v BASICu.
+     * Např. {@code BIN 00110101}
      * 
      * @see #parseTextData(java.lang.String) 
      */
@@ -600,7 +679,7 @@ public class SquareBooleanBitmap implements Cloneable {
     /**
      * Z dat vyplní jeden znak 8x8 v bitmapě.
      * <p>
-     * postup vyplňování čterců 8x8 px (charNum):
+     * postup vyplňování čtverců 8x8 px (charNum):
      * <p>
      * totalNumOfChars = 1:  (číslo v tabulce = číslo znaku)
      * <table>
@@ -622,7 +701,7 @@ public class SquareBooleanBitmap implements Cloneable {
      * 
      * @param charNum  číslo znaku od 0 do totalNumOfChars-1
      * @param data  pole délky {@linkplain #CHAR_SIZE} s
-     *      hodnotami 0 - {@linkplain #MAX_VALUE}
+     *      hodnotami 0 - {@linkplain #MAX_VALUE} pro každý řádek
      * @return
      * @see #setDataFromText(java.lang.String) 
      */

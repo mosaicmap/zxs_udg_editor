@@ -7,6 +7,7 @@
 
 package cz.mp.zxs.tools.udg_editor;
 
+import cz.mp.zxs.tools.udg_editor.utils.FileUtils;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -27,10 +28,16 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -78,6 +85,7 @@ public class MainFrame extends JFrame {
     private JScrollPane bitmapToDataScrollPane = new JScrollPane(bitmapToDataTextArea);
     
     private JButton dataToTextAreaAndClipboardBtn = new JButton("", Images.getImage(Images.EXPORT_AND_COPY));
+    private JButton dataToXbmFileBtn = new JButton("", Images.getImage(Images.EXPORT_TO_XBM));
     
     private Font biggerFieldFont = bitmapToDataTextArea.getFont()
             .deriveFont(bitmapToDataTextArea.getFont().getSize2D()+1);
@@ -145,6 +153,8 @@ public class MainFrame extends JFrame {
         bitmapToDataTextArea.setFont(biggerFieldFont);
         bitmapToDataScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         
+        dataToXbmFileBtn.setToolTipText("Export bitmap to XBM image file.");
+                
         initAbout();
                 
         dataToBitmapTextArea.getDocument().addUndoableEditListener(textAreaUndoManager);
@@ -219,15 +229,12 @@ public class MainFrame extends JFrame {
         
         dataToBitmapPanel.add(createMinWidthFoobar(150,250), new GridBagConstraints(1,0,1,1,0.0,0.0,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, ins0000, 0,0));
-        dataToBitmapPanel.add(dataPasteAndFillBitmapBtn, new GridBagConstraints(0,1,1,1,0.0,0.0,
-                GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, ins5555, 0,0));
         dataToBitmapPanel.add(dataToBitmapScrollPane, new GridBagConstraints(1,1,1,2,1.0,1.0,
                 GridBagConstraints.WEST, GridBagConstraints.BOTH, ins5555, 0,0));
-        dataToBitmapPanel.add(dataToBitmapBtn, new GridBagConstraints(2,1,1,1,0.0,0.0,
+        dataToBitmapPanel.add(dataPasteAndFillBitmapBtn, new GridBagConstraints(2,1,1,1,0.0,0.0,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, ins5555, 0,0));
-        // "vata" kvůli dataToBitmapScrollPane
-        dataToBitmapPanel.add(new JLabel(), new GridBagConstraints(2,2,1,1,0.0,0.0,
-                GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, ins5555, 0,25));
+        dataToBitmapPanel.add(dataToBitmapBtn, new GridBagConstraints(2,2,1,1,0.0,0.0,
+                GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, ins5555, 0,0));
         c.add(dataToBitmapPanel, new GridBagConstraints(0,r,10,2,1.0,0.0,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, ins0000, 0,0));
         
@@ -240,6 +247,8 @@ public class MainFrame extends JFrame {
         bitmapToDataPanel.add(createMinWidthFoobar(150,250), new GridBagConstraints(2,0,1,1,0.0,0.0,
                 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, ins5555, 0,0));
         bitmapToDataPanel.add(dataToTextAreaAndClipboardBtn, new GridBagConstraints(1,1,1,1,0.0,0.0,
+                GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, ins5555, 0,0));
+        bitmapToDataPanel.add(dataToXbmFileBtn, new GridBagConstraints(1,2,1,1,0.0,0.0,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, ins5555, 0,0));
         bitmapToDataPanel.add(bitmapToDataScrollPane, new GridBagConstraints(2,1,1,2,1.0,0.0,
                 GridBagConstraints.WEST, GridBagConstraints.BOTH, ins5555, 0,0));
@@ -323,7 +332,14 @@ public class MainFrame extends JFrame {
                         new StringSelection(bitmapToDataTextArea.getText()),
                         null);                
             }
-        });        
+        });
+        
+        dataToXbmFileBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                exportBitmapToXbmFileWithFileDialog();
+            }
+        });          
         
         dataPasteAndFillBitmapBtn.addActionListener(new ActionListener() {
             @Override
@@ -347,7 +363,7 @@ public class MainFrame extends JFrame {
             }   
         });
     }
-
+    
     /**
      * Nastaní bitmapu z textových dat.
      * Pokud mají data špatný formát, zobrazí chybovou hlášku.
@@ -364,6 +380,102 @@ public class MainFrame extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
         return ok;
+    }
+    
+    /** Dialog pro zadání cílového souboru pro uložení XBM. 
+     * @see #createSaveXbmFileChooser() */
+    private JFileChooser saveXbmFileChooser;
+            
+    /**
+     * Vytvoří a inicializuje dialog pro výběr souboru pro uložení XBM souboru.
+     * 
+     * @return 
+     */
+    private static JFileChooser createSaveXbmFileChooser() {
+        JFileChooser fileChooser = new JFileChooser();
+        
+        ExtFileFilter xbmExtFileFilter = new ExtFileFilter("XBM image (X11)", "xbm");
+        fileChooser.addChoosableFileFilter(xbmExtFileFilter);
+        //fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setFileFilter(xbmExtFileFilter);
+        fileChooser.setCurrentDirectory(new File("."));
+
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);        
+        fileChooser.setMultiSelectionEnabled(false);
+        fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+        //fileChooser.setApproveButtonText("Save");
+        fileChooser.setDialogTitle("Export bitmap to XBM image");
+                
+        return fileChooser;
+    }
+    
+    /**
+     * 
+     * @param file
+     * @param data
+     * @throws IOException 
+     * @see SquareBooleanBitmap#getDataAsXBM(java.lang.String) 
+     */
+    private void saveXbmFile(File file, String data) throws IOException {
+        if (file == null) {
+            throw new IllegalArgumentException("file = null");
+        }
+        if (data == null || data.isEmpty()) {
+            throw new IllegalArgumentException("'data' is blank");
+        }
+        
+        try(
+            BufferedWriter bw = new BufferedWriter(
+                    new OutputStreamWriter(
+                            new FileOutputStream(file), "UTF-8"));  // (doporučuje se vždy explicitně uvést kódování)
+        ) {
+            bw.write(data);
+            bw.flush();
+        }        
+    }
+    
+    /**
+     * Exportuje bitmapu do XBM souboru zadaného dialogem pro výběr souborů.
+     * 
+     * @see #createSaveXbmFileChooser() 
+     * @see #saveXbmFile(java.io.File, java.lang.String) 
+     */
+    private void exportBitmapToXbmFileWithFileDialog() {
+        if (saveXbmFileChooser == null) {
+            saveXbmFileChooser = createSaveXbmFileChooser();
+        }
+        saveXbmFileChooser.setSelectedFile(new File("name.xbm"));
+
+        if (saveXbmFileChooser.showSaveDialog(MainFrame.this) ==
+                JFileChooser.APPROVE_OPTION) {
+
+            // doplnit příponu .xbm, pokud ji soubor nemá
+            File selectedFile = saveXbmFileChooser.getSelectedFile();
+            String ext = FileUtils.getFileExtension(selectedFile);
+            if (! ext.toLowerCase().equals("xbm")) {
+                selectedFile = new File(selectedFile.getAbsolutePath() + ".xbm");
+            }
+
+            // soubor již existuje, přepsat?
+            if (selectedFile.exists() && !selectedFile.isDirectory()) {
+                int res = JOptionPane.showConfirmDialog(MainFrame.this,
+                        "File " + selectedFile.getName() + " already exists. Overwrite?", 
+                        "Question", JOptionPane.YES_NO_OPTION);
+                if (res != JOptionPane.YES_OPTION) {
+                    // TODO vrátit se na výběr souboru
+                    return;
+                }
+            }
+
+            String nameForXbm = FileUtils.getFileBaseName(selectedFile.getName());
+            String xbmData = getSelectedBitmapEditorPanel().getDataAsXBM(nameForXbm);
+            try {
+                saveXbmFile(selectedFile, xbmData);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(MainFrame.this,
+                        ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }        
     }
     
     /**
