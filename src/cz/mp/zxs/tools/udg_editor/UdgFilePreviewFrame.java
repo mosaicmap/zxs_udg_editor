@@ -35,6 +35,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -54,6 +56,13 @@ import javax.swing.ScrollPaneConstants;
  * @author Martin Pokorný
  */
 public class UdgFilePreviewFrame {
+    private static Logger log;
+    static {
+        System.setProperty("java.util.logging.config.file", "logging.properties");
+        log = LoggerFactory.getLogger(UdgFilePreviewFrame.class);
+        
+        log.debug("start initialisation");
+    }       
     
     // JDialog | JFrame -- podle toho, zda se nastaví ownerOfDialog
     private Window window;
@@ -90,13 +99,15 @@ public class UdgFilePreviewFrame {
     /** */
     private UdgFilePreviewFrame(JFrame owner) {
         super();
+        log.debug("");
         
         this.ownerOfDialog = owner;
         if (ownerOfDialog != null) {
+            log.debug("no owner");
             window = new JDialog(owner);
             ((JDialog) window).setTitle(TITLE);
         }
-        else {
+        else {            
             window = new JFrame();
             ((JFrame) window).setTitle(TITLE);
         }
@@ -106,13 +117,15 @@ public class UdgFilePreviewFrame {
             initLayout();
             initEventHandlers();
             initWindow();
+            log.debug("init done");
         } catch (Exception ex) {
-            ex.printStackTrace(System.err);            
+            log.error(ex.getMessage(), ex);
         }        
 
     }
 
     private void initComponents() {
+        log.debug("");
         udgFileField.setEditable(false);
         
         dataScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -122,6 +135,7 @@ public class UdgFilePreviewFrame {
     }
 
     private void initWindow() {
+        log.debug("");
         ArrayList<Image> icons = new ArrayList<Image>();
         icons.add(Images.getImage(Images.LOGO_16).getImage());
         icons.add(Images.getImage(Images.LOGO_32).getImage());
@@ -135,13 +149,15 @@ public class UdgFilePreviewFrame {
     }
     
     private void initWindowSizeAndPosition() {
+        log.debug("");
         window.setMinimumSize(new Dimension(SIZE_MIN_WIDTH, SIZE_MIN_HEIGHT));
         window.setSize(new Dimension(SIZE_DEFAULT_WIDTH, SIZE_DEFAULT_HEIGHT));
         
-        window.setLocationRelativeTo(ownerOfDialog);    // pokud je null, zarovná se na prostředek obrazovky
+        window.setLocationRelativeTo(ownerOfDialog);    // pokud je ownerOfDialog=null, zarovná se na prostředek obrazovky
     }
 
     private void initEventHandlers() {
+        log.debug("");
         window.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -176,9 +192,10 @@ public class UdgFilePreviewFrame {
      * 
      */
     private void updateSelectedPreview() {
+        log.debug("");
         Data selectedData = ((DataItemsComboBoxModel) 
-                cathegoriesCombo.getModel()).getSelectedData();                        
-        //System.out.println(selectedData.getKey() + "  " + selectedData.getValues()); 
+                cathegoriesCombo.getModel()).getSelectedData();
+        log.trace(selectedData.getKey());
         
         dataPanel.removeAll();
         dataPanel.revalidate();
@@ -191,10 +208,10 @@ public class UdgFilePreviewFrame {
         for (String textData : selectedData.getValues()) {
             int commas = textData.replaceAll("[^,]*", "").length();
             int dimInChars = commas > 8 ? 2 : 1;        // jen jednoduše
-//            System.out.println("dimInChars = " + dimInChars);
+            //log.trace("dimInChars = " + dimInChars);
             
             SquareBooleanBitmap bmap = new SquareBooleanBitmap(dimInChars);
-//            System.out.println("data = " + textData);
+            //log.trace("data = " + textData);
             bmap.setDataFromText(textData);
             int margin = 2;
             BitmapPreviewPanel bmPreview = new BitmapPreviewPanel(margin);
@@ -212,11 +229,12 @@ public class UdgFilePreviewFrame {
         dataPanel.revalidate();
         dataPanel.repaint();
         
-//        System.out.println("-----");
+        //log.debug("done");
     }
 
 
     private void initLayout() {
+        log.debug("");
         window.setLayout(new GridBagLayout());
         
         Insets ins5555 = new Insets(5, 5, 5, 5);
@@ -247,6 +265,7 @@ public class UdgFilePreviewFrame {
         if (file == null) {
             throw new IllegalArgumentException("file");
         }
+        log.debug("file = " + file.getAbsolutePath());
         if (!file.exists() || file.isDirectory()) {
             //throw new IllegalArgumentException("file neexistuje");
             udgFileField.setText("ERROR:  " + file.getName() + "  not found!");
@@ -268,6 +287,7 @@ public class UdgFilePreviewFrame {
      * @throws IOException  pokud se čtení souboru nepovede
      */
     private void fillCathegoriesCombo() throws IOException {
+        log.debug("");
         if (udgFile == null) {
             throw new IllegalStateException("udgFile = null");
         }
@@ -302,7 +322,6 @@ public class UdgFilePreviewFrame {
      * @see #getInstance(javax.swing.JFrame) 
      */
     public void showWindow() {
-        
         window.setVisible(true);
     }
 
@@ -321,6 +340,7 @@ public class UdgFilePreviewFrame {
         if (file == null) {
             throw new IllegalArgumentException("file = null");
         }
+        log.debug("file = " + file.getAbsolutePath());
         if (!file.exists() || file.isDirectory()) {
             throw new FileNotFoundException("file not found");
         }
@@ -348,7 +368,7 @@ public class UdgFilePreviewFrame {
                     data.add(new Data(category, categoryData));
                 }
                 category = tLine.substring(1, tLine.length()-1);
-//                System.out.println("  category = " + category);
+                //log.trace("  category = " + category);
                 categoryData = new ArrayList<String>();
                 continue;
             }
@@ -364,6 +384,7 @@ public class UdgFilePreviewFrame {
             data.add(new Data(category, categoryData));
         }
 
+        //log.trace("data.size() = " + data.size());
         return data;
     }
 
@@ -371,7 +392,8 @@ public class UdgFilePreviewFrame {
     /** */
     public static void main(String[] args) 
             throws IOException {
-
+        log.info("");
+        
         final File udgFile;
         if (args.length >= 1) {
             udgFile = new File(args[0]);
@@ -379,6 +401,7 @@ public class UdgFilePreviewFrame {
         else {
             udgFile = new File(DEFAULT_UDG_TXT_FILE_NAME);
         }
+        log.info("udgFile = " + udgFile.getAbsolutePath());
         
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -389,7 +412,7 @@ public class UdgFilePreviewFrame {
                     prevFrame.setUdgFile(udgFile);
                 } catch (IOException ex) {
                     ex.printStackTrace(System.err);
-                }
+                }                
                 prevFrame.showWindow();
             }
         });

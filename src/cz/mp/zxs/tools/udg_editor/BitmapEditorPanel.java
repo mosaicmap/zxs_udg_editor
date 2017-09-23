@@ -31,6 +31,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Editor {@linkplain SquareBooleanBitmap}.
@@ -40,6 +42,7 @@ import javax.swing.event.EventListenerList;
  * @see SquareBooleanBitmap
  */
 public class BitmapEditorPanel extends JPanel {
+    private static Logger log = LoggerFactory.getLogger(BitmapEditorPanel.class);
     
     private SquareBooleanBitmap bmap;
 
@@ -269,11 +272,13 @@ public class BitmapEditorPanel extends JPanel {
                     return;
                 }
                 
-                int ts = bmapView.getBitTileSize() 
+                int tswgl = bmapView.getBitTileSize() 
                         + BitmapViewPanel.GRID_LINE_WIDTH;
-                        
-                int x = (e.getX()-1) / ts;
-                int y = (e.getY()-1) / ts;
+                //log.debug("tswgl = " + tswgl);
+                
+                int x = (e.getX()-1) / tswgl;
+                int y = (e.getY()-1) / tswgl;
+                //log.debug("x = " + x + ";  y = " + y);
                 
                 if (drawMode == DrawMode.POINT) {
                     undoBuffer.addUndoableStep();
@@ -284,6 +289,7 @@ public class BitmapEditorPanel extends JPanel {
                     if (startX == POINT_NOT_DEF && startY == POINT_NOT_DEF) {
                         startX = x;
                         startY = y;
+                        //log.debug("startX = " + startX + ";  startY = " + startY);
                     }
                     else {
                         undoBuffer.addUndoableStep();
@@ -292,7 +298,7 @@ public class BitmapEditorPanel extends JPanel {
                     }
                 }
                 else {
-                    System.err.println("drawMode = " + drawMode); 
+                    log.error("drawMode = " + drawMode); 
                     throw new IllegalStateException("unsupported drawMode");
                 }
                 
@@ -327,12 +333,14 @@ public class BitmapEditorPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 drawMode = DrawMode.POINT;
+                log.debug("drawMode = " + drawMode.name());
             }
         });
         bmDrawLineBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 drawMode = DrawMode.LINE;
+                log.debug("drawMode = " + drawMode.name());
             }
         });        
         
@@ -447,6 +455,7 @@ public class BitmapEditorPanel extends JPanel {
     // -----
     
     private void clear() {
+        log.debug("");
         undoBuffer.addUndoableStep();
         bmap.clearAll();
         repaintBmap();
@@ -454,6 +463,7 @@ public class BitmapEditorPanel extends JPanel {
     }
 
     private void invert() {
+        log.debug("");
         undoBuffer.addUndoableStep();
         bmap.invertAll();
         repaintBmap();
@@ -461,6 +471,7 @@ public class BitmapEditorPanel extends JPanel {
     }
 
     private void turnRight() {
+        log.debug("");
         undoBuffer.addUndoableStep();
         bmap.turnRight();
         repaintBmap();
@@ -468,6 +479,7 @@ public class BitmapEditorPanel extends JPanel {
     }
     
     private void turnLeft() {
+        log.debug("");
         undoBuffer.addUndoableStep();
         bmap.turnLeft();
         repaintBmap();
@@ -475,6 +487,7 @@ public class BitmapEditorPanel extends JPanel {
     }
 
     private void mirrorHorizontal() {
+        log.debug("");
         undoBuffer.addUndoableStep();
         bmap.mirrorHorizontal();
         repaintBmap();
@@ -482,6 +495,7 @@ public class BitmapEditorPanel extends JPanel {
     }
     
     private void mirrorVertical() {
+        log.debug("");
         undoBuffer.addUndoableStep();
         bmap.mirrorVertical();
         repaintBmap();
@@ -489,6 +503,7 @@ public class BitmapEditorPanel extends JPanel {
     }
 
     private void moveToLeft() {
+        log.debug("");
         undoBuffer.addUndoableStep();
         bmap.moveToLeft();
         repaintBmap();
@@ -496,6 +511,7 @@ public class BitmapEditorPanel extends JPanel {
     }
 
     private void moveToRight() {
+        log.debug("");
         undoBuffer.addUndoableStep();
         bmap.moveToRight();
         repaintBmap();
@@ -503,6 +519,7 @@ public class BitmapEditorPanel extends JPanel {
     }
             
     private void moveToDown() {
+        log.debug("");
         undoBuffer.addUndoableStep();
         bmap.moveToDown();
         repaintBmap();
@@ -510,6 +527,7 @@ public class BitmapEditorPanel extends JPanel {
     }
     
     private void moveToUp() {
+        log.debug("");
         undoBuffer.addUndoableStep();
         bmap.moveToUp();
         repaintBmap();
@@ -684,6 +702,7 @@ public class BitmapEditorPanel extends JPanel {
     }
     
     public void undo() {
+        log.debug("");
         undoBuffer.undo();
     }
     
@@ -692,6 +711,7 @@ public class BitmapEditorPanel extends JPanel {
     }
 
     public void redo() {
+        log.debug("");
         undoBuffer.redo();
     }
 

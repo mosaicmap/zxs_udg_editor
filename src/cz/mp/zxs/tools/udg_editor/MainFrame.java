@@ -50,6 +50,8 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.undo.UndoManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ZX Spectrum UDG Editor.
@@ -58,6 +60,10 @@ import javax.swing.undo.UndoManager;
  * @author Martin Pokorný
  */
 public class MainFrame extends JFrame {
+    private static Logger log = LoggerFactory.getLogger(MainFrame.class);
+    static {
+        log.debug("start initialisation");
+    }
     
     private static MainFrame instance = null;
 
@@ -84,8 +90,8 @@ public class MainFrame extends JFrame {
     private JEditorPane bitmapToDataTextArea = new JEditorPane();
     private JScrollPane bitmapToDataScrollPane = new JScrollPane(bitmapToDataTextArea);
     
-    private JButton dataToTextAreaAndClipboardBtn = new JButton("", Images.getImage(Images.EXPORT_AND_COPY));
-    private JButton dataToXbmFileBtn = new JButton("", Images.getImage(Images.EXPORT_TO_XBM));
+    private JButton bitmapToDataTextAreaAndClipboardBtn = new JButton("", Images.getImage(Images.EXPORT_AND_COPY));
+    private JButton bitmapToXbmFileBtn = new JButton("", Images.getImage(Images.EXPORT_TO_XBM));
     
     private Font biggerFieldFont = bitmapToDataTextArea.getFont()
             .deriveFont(bitmapToDataTextArea.getFont().getSize2D()+1);
@@ -102,17 +108,20 @@ public class MainFrame extends JFrame {
     private MainFrame() {
         super(TITLE);
         
-        try {
+        try {            
             initComponents();
             initLayout();
             initEventHandlers();
             initFrame();
+            log.debug("init done");
         } catch (Exception ex) {
-            ex.printStackTrace(System.err);            
+            log.error(ex.getMessage(), ex);
         }        
     };
 
-    private void initFrame() {        
+    private void initFrame() {
+        log.debug("");
+        
         ArrayList<Image> icons = new ArrayList<Image>();
         icons.add(Images.getImage(Images.LOGO_16).getImage());
         icons.add(Images.getImage(Images.LOGO_32).getImage());
@@ -128,6 +137,7 @@ public class MainFrame extends JFrame {
     }
 
     private void initFrameSizeAndPosition() {
+        log.debug("");
         this.pack();
         this.setMinimumSize(new Dimension(this.getWidth(), this.getHeight()));
         this.setSize(new Dimension(this.getWidth(), this.getHeight()));
@@ -136,6 +146,7 @@ public class MainFrame extends JFrame {
     }
     
     private void initComponents() {
+        log.debug("");
         
         initBitmapPanel();
         init2x2BitmapPanel();
@@ -148,12 +159,12 @@ public class MainFrame extends JFrame {
         dataToBitmapTextArea.setFont(biggerFieldFont);
         dataToBitmapScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         
-        dataToTextAreaAndClipboardBtn.setToolTipText("Export bitmap to DATA & copy DATA to clipboard");
+        bitmapToDataTextAreaAndClipboardBtn.setToolTipText("Export bitmap to DATA & copy DATA to clipboard");
         bitmapToDataTextArea.setEditable(false);
         bitmapToDataTextArea.setFont(biggerFieldFont);
         bitmapToDataScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         
-        dataToXbmFileBtn.setToolTipText("Export bitmap to XBM image file.");
+        bitmapToXbmFileBtn.setToolTipText("Export bitmap to XBM image file.");
                 
         initAbout();
                 
@@ -161,6 +172,7 @@ public class MainFrame extends JFrame {
     }
 
     private void initAbout() {
+        log.debug("");
         // (c) \u00A9 2017 Martin Pokorn\u00FD
         aboutSelectableLabel.setText(" \u00A9 2017  Martin Pokorn\u00FD"
                 + "    MartinPokorny.czech@gmail.com"
@@ -174,6 +186,7 @@ public class MainFrame extends JFrame {
     }
     
     private void initBitmapPanel() {
+        log.debug("");
         bitmapEditorPanel = new BitmapEditorPanel();
         
         bitmapEditorPanel.setDimensionInChars(1);
@@ -187,7 +200,8 @@ public class MainFrame extends JFrame {
         });
     }
         
-    private void init2x2BitmapPanel() {        
+    private void init2x2BitmapPanel() {
+        log.debug("");
         bitmap2x2EditPanel = new BitmapEditorPanel();
 
         bitmap2x2EditPanel.setDimensionInChars(2);
@@ -202,6 +216,7 @@ public class MainFrame extends JFrame {
     }
 
     private void initTabbedPanel() {
+        log.debug("");
         tabbedPanel.addTab("   1   ", bitmapEditorPanel);
         tabbedPanel.addTab(" 2 \u00D7 2 ", bitmap2x2EditPanel);
     }
@@ -219,6 +234,7 @@ public class MainFrame extends JFrame {
     }
 
     private void initLayout() {
+        log.debug("");
         this.setLayout (new GridBagLayout());
 
         Insets ins5555 = new Insets(5, 5, 5, 5);
@@ -246,9 +262,9 @@ public class MainFrame extends JFrame {
 
         bitmapToDataPanel.add(createMinWidthFoobar(150,250), new GridBagConstraints(2,0,1,1,0.0,0.0,
                 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, ins5555, 0,0));
-        bitmapToDataPanel.add(dataToTextAreaAndClipboardBtn, new GridBagConstraints(1,1,1,1,0.0,0.0,
+        bitmapToDataPanel.add(bitmapToDataTextAreaAndClipboardBtn, new GridBagConstraints(1,1,1,1,0.0,0.0,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, ins5555, 0,0));
-        bitmapToDataPanel.add(dataToXbmFileBtn, new GridBagConstraints(1,2,1,1,0.0,0.0,
+        bitmapToDataPanel.add(bitmapToXbmFileBtn, new GridBagConstraints(1,2,1,1,0.0,0.0,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, ins5555, 0,0));
         bitmapToDataPanel.add(bitmapToDataScrollPane, new GridBagConstraints(2,1,1,2,1.0,0.0,
                 GridBagConstraints.WEST, GridBagConstraints.BOTH, ins5555, 0,0));
@@ -269,9 +285,12 @@ public class MainFrame extends JFrame {
     }
 
     private void initEventHandlers() {
+        log.debug("");
+        
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                log.info("close frame!");
                 System.exit(0);
             }
         });
@@ -281,11 +300,13 @@ public class MainFrame extends JFrame {
             public void keyPressed(KeyEvent e) {
                 if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_Z) {
                     if (textAreaUndoManager.canUndo()) {
+                        //log.trace("textArea undo");
                         textAreaUndoManager.undo();
                     }
                 }
                 if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_Y) {
                     if (textAreaUndoManager.canRedo()) {
+                        //log.trace("textArea redo");
                         textAreaUndoManager.redo();
                     }
                 }
@@ -295,14 +316,16 @@ public class MainFrame extends JFrame {
         tabbedPanel.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent evt) {
-                BitmapEditorPanel selEdit = getSelectedBitmapEditorPanel();
+                BitmapEditorPanel selEdit = getSelectedBitmapEditorPanel();                
                 if (selEdit == bitmapEditorPanel) {
+                    log.debug("(tabbedPanel) -> bitmapEditorPanel");
                     if (dataToBitmapTextArea.getText().equals(DEFAULT_DATA_16)) {
                         dataToBitmapTextArea.setText(DEFAULT_DATA_8);
                         textAreaUndoManager.discardAllEdits();
                     }                    
                 }
                 else if (selEdit == bitmap2x2EditPanel) {
+                    log.debug("(tabbedPanel) -> bitmap2x2EditPanel");
                     if (dataToBitmapTextArea.getText().equals(DEFAULT_DATA_8)) {
                         dataToBitmapTextArea.setText(DEFAULT_DATA_16);
                         textAreaUndoManager.discardAllEdits();
@@ -311,56 +334,61 @@ public class MainFrame extends JFrame {
                 bitmapToDataTextArea.setText("");
             }
         });
+
+        // --- tlačítka data --> bitmap  a  bitmap --> data | soubor
         
         dataToBitmapBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {                
-                dataToBitmap(dataToBitmapTextArea.getText());
+            public void actionPerformed(ActionEvent e) {
+                log.debug("(dataToBitmapBtn click)");
+                try {
+                    dataToBitmap(dataToBitmapTextArea.getText());
+                } catch (Exception ex) {
+                    log.error(ex.getMessage(), ex);
+                }
             }
         });        
-                
-        dataToTextAreaAndClipboardBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // -- bitmap -> data
-                String data = getSelectedBitmapEditorPanel().getDataAsText();
-                bitmapToDataTextArea.setText("DATA " + data);
-                System.out.println(data);
-                
-                // -- data -> clipboard
-                clipboard.setContents(
-                        new StringSelection(bitmapToDataTextArea.getText()),
-                        null);                
-            }
-        });
-        
-        dataToXbmFileBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                exportBitmapToXbmFileWithFileDialog();
-            }
-        });          
-        
+           
         dataPasteAndFillBitmapBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                log.debug("(dataPasteAndFillBitmapBtn click)");
                 try {
-                    // -- clipboard -> data
-                    Transferable clipData = clipboard.getContents(MainFrame.this);
-                    String clipString = (String) clipData.getTransferData(
-                            DataFlavor.stringFlavor);
-       
-                    dataToBitmapTextArea.setText(clipString);
-                    
-                    // -- data -> bitmap
-                    dataToBitmap(clipString);
-                    
-                } catch (UnsupportedFlavorException ex) {
-                    // nic !
+                    dataPasteToTextAreaAndBitmap();
                 } catch (Exception ex) {
-                    ex.printStackTrace(System.err);
-                } 
+                    log.error(ex.getMessage(), ex);
+                    JOptionPane.showMessageDialog(MainFrame.this,
+                            ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }   
+        });
+       
+        bitmapToDataTextAreaAndClipboardBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.debug("(bitmapToDataTextAreaAndClipboardBtn click)");
+                try {
+                    bitmapToDataTextAreaAndClipboard();
+                } catch (Exception ex) {
+                    log.error(ex.getMessage(), ex);
+                    JOptionPane.showMessageDialog(MainFrame.this,
+                            ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        
+        bitmapToXbmFileBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.debug("(bitmapToXbmFileBtn click)");
+                try {
+                    bitmapToXbmFileWithFileDialog();
+                } catch (Exception ex) {
+                    log.error(ex.getMessage(), ex);
+                    JOptionPane.showMessageDialog(MainFrame.this,
+                            ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         });
     }
     
@@ -371,9 +399,11 @@ public class MainFrame extends JFrame {
      * @return {@code true}, pokud se data do bitmapy podaří nastavit
      */
     private boolean dataToBitmap(String textData) {
+        log.debug("");
         boolean ok = getSelectedBitmapEditorPanel().setDataFromText(
                 textData);
         if (!ok) {
+            log.info("Wrong data format. Data could not be analyzed.");
             JOptionPane.showMessageDialog(MainFrame.this,
                     "Wrong data format. Data could not be analyzed.",
                     "Data error",
@@ -382,6 +412,51 @@ public class MainFrame extends JFrame {
         return ok;
     }
     
+    /**
+     * 
+     * @return 
+     * @see #dataToBitmap(java.lang.String) 
+     */
+    private void dataPasteToTextAreaAndBitmap() {
+        try {
+            log.debug("(dataPasteAndFillBitmapBtn)");
+            // -- clipboard -> data
+            Transferable clipData = clipboard.getContents(MainFrame.this);
+            String clipString = (String) clipData.getTransferData(
+                    DataFlavor.stringFlavor);
+
+            dataToBitmapTextArea.setText(clipString);
+
+            // -- data -> bitmap
+            dataToBitmap(clipString);
+
+        } catch (UnsupportedFlavorException ex) {
+            // nic !
+            log.debug(ex.getMessage());
+        } catch (IOException ex) {
+            log.error(ex.getMessage(), ex);
+        }         
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    private void bitmapToDataTextAreaAndClipboard() {
+        log.debug("");
+        // -- bitmap -> data
+        String data = getSelectedBitmapEditorPanel().getDataAsText();
+        bitmapToDataTextArea.setText("DATA " + data);
+        
+        // -- opravdu vypsat na stdout
+        System.out.println(data);
+
+        // -- data -> clipboard
+        clipboard.setContents(
+                new StringSelection(bitmapToDataTextArea.getText()),
+                null);
+    }
+            
     /** Dialog pro zadání cílového souboru pro uložení XBM. 
      * @see #createSaveXbmFileChooser() */
     private JFileChooser saveXbmFileChooser;
@@ -392,6 +467,7 @@ public class MainFrame extends JFrame {
      * @return 
      */
     private static JFileChooser createSaveXbmFileChooser() {
+        log.debug("");
         JFileChooser fileChooser = new JFileChooser();
         
         ExtFileFilter xbmExtFileFilter = new ExtFileFilter("XBM image (X11)", "xbm");
@@ -405,7 +481,8 @@ public class MainFrame extends JFrame {
         fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
         //fileChooser.setApproveButtonText("Save");
         fileChooser.setDialogTitle("Export bitmap to XBM image");
-                
+        
+        log.debug("fileChooser initialized");
         return fileChooser;
     }
     
@@ -417,6 +494,7 @@ public class MainFrame extends JFrame {
      * @see SquareBooleanBitmap#getDataAsXBM(java.lang.String) 
      */
     private void saveXbmFile(File file, String data) throws IOException {
+        log.debug("");
         if (file == null) {
             throw new IllegalArgumentException("file = null");
         }
@@ -431,6 +509,7 @@ public class MainFrame extends JFrame {
         ) {
             bw.write(data);
             bw.flush();
+            log.info(file.getName() + " saved");
         }        
     }
     
@@ -440,7 +519,8 @@ public class MainFrame extends JFrame {
      * @see #createSaveXbmFileChooser() 
      * @see #saveXbmFile(java.io.File, java.lang.String) 
      */
-    private void exportBitmapToXbmFileWithFileDialog() {
+    private void bitmapToXbmFileWithFileDialog() {
+        log.debug("");
         if (saveXbmFileChooser == null) {
             saveXbmFileChooser = createSaveXbmFileChooser();
         }
@@ -458,24 +538,35 @@ public class MainFrame extends JFrame {
 
             // soubor již existuje, přepsat?
             if (selectedFile.exists() && !selectedFile.isDirectory()) {
+                log.debug(selectedFile.getName() + " exists. Overwrite?");
                 int res = JOptionPane.showConfirmDialog(MainFrame.this,
                         "File " + selectedFile.getName() + " already exists. Overwrite?", 
                         "Question", JOptionPane.YES_NO_OPTION);
                 if (res != JOptionPane.YES_OPTION) {
-                    // TODO vrátit se na výběr souboru
+                    log.info("canceled");
+                    // (správně by se mělo vrátit na výběr souboru)
                     return;
                 }
             }
-
+            log.info("XBM: " + selectedFile.getAbsolutePath());
+            
             String nameForXbm = FileUtils.getFileBaseName(selectedFile.getName());
             String xbmData = getSelectedBitmapEditorPanel().getDataAsXBM(nameForXbm);
             try {
                 saveXbmFile(selectedFile, xbmData);
+                
+                JOptionPane.showMessageDialog(MainFrame.this,
+                        selectedFile.getName() + " saved.", "Info", 
+                        JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
+                log.warn(ex.getMessage(), ex);
                 JOptionPane.showMessageDialog(MainFrame.this,
                         ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }        
+        }
+        else {
+            log.info("canceled");
+        }
     }
     
     /**
@@ -490,7 +581,8 @@ public class MainFrame extends JFrame {
     }
     
     @Override
-    public void setVisible(boolean b) {                
+    public void setVisible(boolean b) {
+        log.info("" + b);
         super.setVisible(b);
     }
 

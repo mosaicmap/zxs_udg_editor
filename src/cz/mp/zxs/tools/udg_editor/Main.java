@@ -7,14 +7,21 @@
 
 package cz.mp.zxs.tools.udg_editor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ZX Spectrum UDG Editor.
  * 
  * @author Martin Pokorný
  */
-public class Main {    
-
+public class Main {            
+    private static Logger log;
+    static {
+        System.setProperty("java.util.logging.config.file", "logging.properties");
+        log = LoggerFactory.getLogger(Main.class);
+    }
+        
     public static final String VERSION_SPEC = 
             Main.class.getPackage().getSpecificationVersion(); // viz build.xml
     public static final String VERSION_IMPL = 
@@ -41,6 +48,8 @@ public class Main {
     
     /** */
     public static void main(String[] args) {
+        log.info("version: " + VERSION);
+        
         boolean optVersion = false;
         
         for(int i = 0; i < args.length; i++) {
@@ -57,6 +66,7 @@ public class Main {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                log.info("create and show GUI");
                 MainFrame.getInstance().setVisible(true);
             }
         });

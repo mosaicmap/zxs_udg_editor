@@ -8,6 +8,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.ImageIcon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Třída {@code Images} umožňuje přístup k obrázkům v resources.
@@ -15,7 +17,8 @@ import javax.swing.ImageIcon;
  * @author Martin Pokorný
  */
 public class Images {
-
+    private static Logger log = LoggerFactory.getLogger(Images.class);
+    
     private static final String IMG_RESOURCE = "/resources/images/";
     
     /** */
@@ -76,13 +79,14 @@ public class Images {
      *      {@code null}, pokud není zadané jméno definováno, jinak ikonu.
      */
     public static ImageIcon getImage(String imgName) {
+        //log.trace("imgName = " + imgName);
         if (!images.containsKey(imgName)) {
             URL imgURL = Images.class.getResource(IMG_RESOURCE + imgName);
             if (imgURL != null) {
                 images.put(imgName, new ImageIcon(imgURL));
             }
             else {
-                System.err.print("imgName " + imgName + "  NOT FOUND !");
+                log.error("imgName " + imgName + "  NOT FOUND !");
             }
         }
         return images.get(imgName);

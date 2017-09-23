@@ -7,8 +7,11 @@
 
 package cz.mp.zxs.tools.udg_editor;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -19,7 +22,8 @@ import java.util.regex.Pattern;
  * @author Martin Pokorný
  */
 public class SquareBooleanBitmap implements Cloneable {
-
+    private static Logger log = LoggerFactory.getLogger(SquareBooleanBitmap.class);
+    
     /** Osm bytů; celkem 8x8 bitů. */
     public static final int CHAR_SIZE = 8;
     private static final int MAX_VALUE = 255; //(int) Math.pow(2, CHAR_SIZE) - 1;
@@ -60,6 +64,7 @@ public class SquareBooleanBitmap implements Cloneable {
      * @throws IllegalArgumentException  
      */
     public SquareBooleanBitmap(int dimChars) {
+        //log.debug("");
         setDimensionInCharsImpl(dimChars);
         initBitmapArray();
     }
@@ -101,6 +106,7 @@ public class SquareBooleanBitmap implements Cloneable {
      * @throws IllegalArgumentException  
      */
     private void setDimensionInCharsImpl(int dimChars) {
+        //log.trace("dimChars = " + dimChars);
         if (dimChars <= 0 || dimChars > 10) {
             throw new IllegalArgumentException("dimChars! (0 < dimChars >= 10)");
         }
@@ -153,6 +159,7 @@ public class SquareBooleanBitmap implements Cloneable {
      * @param y 
      */
     public void invertBit(int x, int y) {
+        //log.debug("x = " + x + "; y = " + y);
         checkXY(x,y);
         this.bitmap[x][y] = ! this.bitmap[x][y];
     }
@@ -199,19 +206,17 @@ public class SquareBooleanBitmap implements Cloneable {
      * @param y2  koncové y
      */
     public void drawLine(int x1, int y1, int x2, int y2) {
+        log.trace("x1 = " + x1 + "  y1 = " + y1 + "   x2 = " + x2 + "  y2 = " + y2); 
         checkXY(x1,y1);
         checkXY(x2,y2);
-//        System.out.println("x1 = " + x1 + "  y1 = " + y1 + "   x2 = " + x2 + "  y2 = " + y2); 
 
         this.bitmap[x1][y1] = true;
         this.bitmap[x2][y2] = true;
-//        data[x1][y1] = ! data[x1][y1];
-//        data[x2][y2] = ! data[x2][y2];
-//        printDataToStdOutForDebug(data, SIZE);
+        // printDataToStdOutForDebug(data, SIZE);
         
         int dx = x2-x1;
         int dy = y2-y1;
-//        System.out.println("dx = " + dx + "  dy = " + dy);
+        //log.trace("dx = " + dx + "  dy = " + dy);
 
         double m = 0;
         if (dx == 0) {
@@ -223,18 +228,16 @@ public class SquareBooleanBitmap implements Cloneable {
         else {
             m = ((double)dy)/((double)dx);
         }
-//        System.out.println("m = " + m);
+        //log.trace("m = " + m);
         
         if (m <= 1 && m >= -1) {
             int dxSgn = (int) Math.signum(dx);
-//            System.out.println("dxSgn = " + dxSgn);
+            log.trace("dxSgn = " + dxSgn);
             int x = x1;
             double y = y1;
             while (x != x2) {
-                //int y = (int) Math.round(m * Math.abs(x-x1));
-//                System.out.println("x = " + x + " -> y = " + y + "  -> " + (int)Math.round(y));
+                //log.trace("x = " + x + " -> y = " + y + "  -> " + (int)Math.round(y));
                 this.bitmap[x][(int)Math.round(y)] = true;
-//                data[x][(int)Math.round(y)] = ! data[x][(int)Math.round(y)];
                 y += m * dxSgn;
                 x += dxSgn;
             }
@@ -244,13 +247,12 @@ public class SquareBooleanBitmap implements Cloneable {
             // (protože např. na 3 px v x by připadalo třeba 8 px v y --> v přímce by byly mezery) 
             m = 1 / m;
             int dySgn = (int) Math.signum(dy);
-//            System.out.println("dySgn = " + dySgn);
+            log.trace("dySgn = " + dySgn);
             int y = y1;
             double x = x1;
             while (y != y2) {
-//                System.out.println("y = " + y + " -> x = " + x + "  -> " + (int)Math.round(x));
+                //log.trace("y = " + y + " -> x = " + x + "  -> " + (int)Math.round(x));
                 this.bitmap[(int)Math.round(x)][y] = true;
-//                data[(int)Math.round(x)][y] = ! data[(int)Math.round(x)][y];
                 x += m * dySgn;
                 y += dySgn;
             }            
@@ -399,6 +401,7 @@ public class SquareBooleanBitmap implements Cloneable {
      * @return
      */
     public int[] getDataLines() {
+        log.debug("");
         int[] result = new int[totalNumOfChars * CHAR_SIZE];
         int resultRow=0;
         for (int charNum=0; charNum<totalNumOfChars; charNum++) {
@@ -408,6 +411,7 @@ public class SquareBooleanBitmap implements Cloneable {
             yBase *= CHAR_SIZE; 
             //System.out.println("charNum = " + charNum + "    xBase = " + xBase + "  yBase = " + yBase);
             
+            // TODO ? tabulka s bin hodnotami   final int[] binVals = new int[] { 1, 2, 4, 8, 16, 32, 64, 128 };
             for (int row=yBase; row<yBase+CHAR_SIZE; row++)  {
                 for (int x=xBase, val=1; x<xBase+CHAR_SIZE; x++, val*=2)  {
                     result[resultRow] += this.bitmap[dimPxs-1-x][row] ? val : 0;
@@ -446,6 +450,7 @@ public class SquareBooleanBitmap implements Cloneable {
      * @return 
      */
     public String getDataLinesAsText() {
+        log.debug("");
         int[] data = this.getDataLines();
 
         if (data.length < 1) {
@@ -459,7 +464,9 @@ public class SquareBooleanBitmap implements Cloneable {
             }
         }
         sb.append(data[data.length-1]);
-        return sb.toString();
+        String result = sb.toString();
+        log.debug(result);
+        return result;
     }
         
     /**
@@ -492,6 +499,7 @@ public class SquareBooleanBitmap implements Cloneable {
      * @return
      */
     public String getDataAsXBM(String name) {
+        log.debug("name = " + name);
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("name is blank");
         }
@@ -535,6 +543,7 @@ public class SquareBooleanBitmap implements Cloneable {
         }
         result.append("};").append("\n");
         
+        log.debug("size: " + result.length());
         return result.toString();
     }
     
@@ -556,21 +565,21 @@ public class SquareBooleanBitmap implements Cloneable {
      * @see #setDataFromText(java.lang.String)
      */
     private int[] parseTextData(String data) {
+        log.trace("raw data = \"" + data + "\"");
         if (data == null || data.trim().length() <= 1) {
             //throw new IllegalArgumentException("data is blank");
             return null;
         }
         String dtmp = data;
-//        System.out.println("----\ndtmp (0) = " + dtmp);
-        if (dtmp.indexOf(",") == -1) {
+        if (!dtmp.contains(",")) {
             return null;
         }
         dtmp = dtmp.replaceAll("(,,)", ",0,");
-//        System.out.println("dtmp (1) = " + dtmp);
+        log.trace("dtmp(1) = " + dtmp);
         dtmp = dtmp.replaceAll("\\n", ",");
-//        System.out.println("dtmp (2) = " + dtmp);
+        log.trace("dtmp(2) = " + dtmp);
         dtmp = dtmp.replaceAll("\\d*\\s*DATA\\s*", "");   // odstranit číslo řádky před DATA, i s DATA
-//        System.out.println("dtmp (3) = " + dtmp);
+        log.trace("dtmp(3) = " + dtmp);
         if (dtmp.replaceAll("\\d", "").length() == data.length()) {       // = není žádné číslice -> určitě chyba
             return null;
         }
@@ -590,18 +599,19 @@ public class SquareBooleanBitmap implements Cloneable {
                 }
             }
         }
-        
-        dtmp = dtmp.replaceAll("[^\\d,]", "");
-//        System.out.println("dtmp (4) = " + dtmp);
+        log.trace("dtmp(4) = " + dtmp);
 
-        // protože jinak: DATA "H",8,16,68,68,68,60,4,56  -->  "H",8,16,68,68,68,60,4,56  --> ,8,16,68,68,68,60,4,56 --> 0,8,16,68,68,68,60,4,56
+        dtmp = dtmp.replaceAll("[^\\d,]", "");
+        log.trace("dtmp(5) = " + dtmp);
+        
+        // protože jinak: DATA "H",8,16,68,68,68,60,4,56  -->  "H",8,16,68,68,68,60,4,56  --> ,8,16,68,68,68,60,4,56 --> 0,8,16,68,68,68,60,4,56  (nula na začátku je špatně)
         while (dtmp.startsWith(",")) {
             dtmp = dtmp.substring(1);
         }
-//        System.out.println("dtmp (5) = " + dtmp);
+        log.trace("dtmp(6) = " + data);
         
         String[] values = dtmp.split("[,]");
-//        System.out.println("values = " + Arrays.toString(values) + "   length = " + values.length);
+        log.trace("values = " + Arrays.toString(values) + "   length = " + values.length);
         if (values.length == 0) {
             return null;
         }
@@ -620,7 +630,7 @@ public class SquareBooleanBitmap implements Cloneable {
                 result[i] = MAX_VALUE;
             }
         }
-//        System.out.println("valuesDec = " + Arrays.toString(result) + "   length = " + result.length);
+        log.debug("valuesDec = " + Arrays.toString(result) + "   length = " + result.length);
 
         return result;
     }
@@ -637,6 +647,7 @@ public class SquareBooleanBitmap implements Cloneable {
      *      jinak {@code true}
      */
     public boolean setDataFromText(String data) {
+        log.debug("data = " + data);
         if (data == null || data.trim().length() <= 1) {
             return false;
         }
@@ -657,8 +668,7 @@ public class SquareBooleanBitmap implements Cloneable {
             eightsome[i%CHAR_SIZE] = valuesDec[i];
 
             if((i+1)%CHAR_SIZE == 0 || i==valuesDec.length-1) {
-//                System.out.println("new ");
-//                System.out.println(Arrays.toString(eightsome));
+                //log.trace(Arrays.toString(eightsome));
 
                 // hodnoty -> na bitmapu
                 ok &= fillChar(charNum, eightsome);
@@ -671,7 +681,7 @@ public class SquareBooleanBitmap implements Cloneable {
             }
         }
         
-//        printBitmapToStdOutForDebug();
+        //printBitmapToStdOutForDebug();
         
         return ok;
     }
@@ -706,13 +716,14 @@ public class SquareBooleanBitmap implements Cloneable {
      * @see #setDataFromText(java.lang.String) 
      */
     private boolean fillChar(int charNum, int[] data) {      
+        log.trace("charNum = " + charNum);
         if (data.length != CHAR_SIZE) {
             throw new IllegalArgumentException("data.length != CHAR_SIZE");
         }
         if (charNum < 0 || charNum >= totalNumOfChars) {
             throw new IllegalArgumentException("charNum");
         }
-        
+
         // -- NE, není správně. -- (mám asi jinak indexování/kreslení pole, než jsem myslel ? Někde se něco otáčí ??)
         // pro dimChars = 1:
         //    0:  x=0, y=0;
@@ -766,7 +777,6 @@ public class SquareBooleanBitmap implements Cloneable {
      */
     private boolean[][] getBitmapCopyImpl() {
         boolean[][] result = new boolean[dimPxs][dimPxs];
-        // NE: System.arraycopy(this.bitmap, 0, result, 0, dimPxs); // NE, je pro 1D pole !
         for(int i=0; i<dimPxs; i++) {
             System.arraycopy(this.bitmap[i], 0, result[i], 0, dimPxs);
         }
@@ -783,10 +793,11 @@ public class SquareBooleanBitmap implements Cloneable {
 
     
     /**
-     * Pouze pro ladění.
+     * Pouze pro ladění!
      *
      */
     void printBitmapToStdOutForDebug() {
+        log.warn("");
         System.out.println("");
         for (int row=0; row<dimPxs; row++)  {
             if (row % CHAR_SIZE == 0) {
@@ -802,10 +813,6 @@ public class SquareBooleanBitmap implements Cloneable {
         }
     }
     
-    // JEN PRO TEST ... --------------------------------------------------------
-//    /** */
-//    public static void main(String[] args) {
-//        SquareBooleanBitmap sbb = new SquareBooleanBitmap();
-//    }
-
+    // TODO jednotkové testy pro SquareBooleanBitmap
+    
 }   // SquareBooleanBitmap.java

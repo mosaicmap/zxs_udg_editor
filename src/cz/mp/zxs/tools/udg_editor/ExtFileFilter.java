@@ -19,7 +19,6 @@ import javax.swing.filechooser.FileFilter;
  */
 public class ExtFileFilter extends FileFilter {
     
-    //private ArrayList<String> extensions = new ArrayList<String>();
     private String[] extensions;
     /** Základní část popisu filtru, bez přípon. */
     private String baseDescription;    
