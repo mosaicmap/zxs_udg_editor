@@ -1,9 +1,10 @@
 Manifest-Version: 1.0
 Ant-Version: Apache Ant 1.9.7
-Created-By: 1.8.0_112-b15 (Oracle Corporation)
+Created-By: 1.8.0_102-b14 (Oracle Corporation)
 Main-Class: cz.mp.zxs.tools.udg_editor.Main
+Class-Path: lib/slf4j-api-1.7.25.jar lib/slf4j-jdk14-1.7.25.jar
 
 Name: cz/mp/zxs/tools/udg_editor/
 Specification-Version: 0.5_devel
-Implementation-Version: 2017-09-22
+Implementation-Version: 2017-09-23
 
