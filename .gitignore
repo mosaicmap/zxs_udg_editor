@@ -28,4 +28,7 @@ build/
 # Temp info
 _tmp/
 _temp/
-/_info_tmp/
+_info_tmp/
+
+# Temp xmb
+*.xbm
