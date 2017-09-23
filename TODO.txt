@@ -1,7 +1,4 @@
 
-
-- normální logování -- SLF4J + logback/log4j/?
-
 - GUI
     
     - při vyšším rozlišení displeje, lépe při vyšším DPI, zobrazovat náhledy v previewer větší
