@@ -33,3 +33,6 @@ _info_tmp/
 
 # Temp xbm
 *.xbm
+
+# manifest se generuje automaticky
+manifest.mf
