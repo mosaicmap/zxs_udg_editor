@@ -79,7 +79,7 @@
     <property name="dist.src.jar" value="${dist.dir}/${ant.project.name}-src.jar"/>
     
     <property name="res4dist.dir" value="res4dist"/>
-    <property name="lib.dir" value="lib"/>
+    <!--<property name="lib.dir" value="lib"/>-->
     
     <property name="manifest.name" value="manifest.mf"/>
     <!--
@@ -143,11 +143,13 @@
         </copy>
     </target>
     
+    <!-- Ne, to už dělá Netbeans
     <target name="-copy-lib-to-dist" depends="-copy-res-dist">
         <copy todir="${dist.dir}" overwrite="true">
             <fileset dir="${lib.dir}"/>
         </copy>
     </target>
+    -->
         
     <!-- dist final zip -->     
     <target name="-zip-dist" depends="compile">
