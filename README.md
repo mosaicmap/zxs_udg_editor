@@ -7,12 +7,12 @@ For more information about ZX Spectrum and UDG see:
 [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum), [ZX Spectrum character set](https://en.wikipedia.org/wiki/ZX_Spectrum_character_set) on Wikipedia.
 
 ### Requirements
-Java Runtime Environment (JRE) or Java SE Development Kit (JDK).
+Java 7 or newer.
 
 ### How to Built
-1. install JDK, install Netbeans IDE
-2. Open project in Netbeans
-3. Select "Clean and build project" in menu. See folder ''dist''.
+1. install ''Java SE Development Kit (JDK)'' and install ''Netbeans IDE''
+2. open project in Netbeans.
+4. select "Clean and build project" in menu "Run". Result should be in folders ''dist'', ''dist_zip''.
 
 ### Screenshot
-![screenshot_1](screenshots/Screenshot_v0.4_1.png)
+![screenshot_1](src_graphics/screenshots/Screenshot_v0.4_1.png)
