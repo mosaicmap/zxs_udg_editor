@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  * @see SquareBooleanBitmap
  */
 public class BitmapPreviewPanel extends JPanel {
-    private static Logger log = LoggerFactory.getLogger(BitmapPreviewPanel.class);
+//    private static final Logger log = LoggerFactory.getLogger(BitmapPreviewPanel.class);
     
     private SquareBooleanBitmap bmap;
         

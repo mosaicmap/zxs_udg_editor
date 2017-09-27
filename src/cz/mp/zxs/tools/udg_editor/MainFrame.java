@@ -60,7 +60,7 @@ import org.slf4j.LoggerFactory;
  * @author Martin Pokorný
  */
 public class MainFrame extends JFrame {
-    private static Logger log = LoggerFactory.getLogger(MainFrame.class);
+    private static final Logger log = LoggerFactory.getLogger(MainFrame.class);
     static {
         log.debug("start initialisation");
     }

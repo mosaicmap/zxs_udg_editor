@@ -56,7 +56,7 @@ import org.slf4j.LoggerFactory;
  * @author Martin Pokorný
  */
 public class UdgFilePreviewFrame {
-    private static Logger log;
+    private static final Logger log;
     static {
         System.setProperty("java.util.logging.config.file", "logging.properties");
         log = LoggerFactory.getLogger(UdgFilePreviewFrame.class);

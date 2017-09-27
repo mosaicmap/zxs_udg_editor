@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
  * @author Martin Pokorný
  */
 public class SquareBooleanBitmap implements Cloneable {
-    private static Logger log = LoggerFactory.getLogger(SquareBooleanBitmap.class);
+    private static final Logger log = LoggerFactory.getLogger(SquareBooleanBitmap.class);
     
     /** Osm bytů; celkem 8x8 bitů. */
     public static final int CHAR_SIZE = 8;

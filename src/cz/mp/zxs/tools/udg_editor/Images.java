@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * @author Martin Pokorný
  */
 public class Images {
-    private static Logger log = LoggerFactory.getLogger(Images.class);
+    private static final Logger log = LoggerFactory.getLogger(Images.class);
     
     private static final String IMG_RESOURCE = "/resources/images/";
     

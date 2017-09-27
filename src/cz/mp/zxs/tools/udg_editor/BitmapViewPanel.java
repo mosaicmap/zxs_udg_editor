@@ -11,8 +11,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -23,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * @see BitmapPreviewPanel
  */
 public class BitmapViewPanel extends JPanel {
-    private static Logger log = LoggerFactory.getLogger(BitmapViewPanel.class);
+//    private static final Logger log = LoggerFactory.getLogger(BitmapViewPanel.class);
     
     private SquareBooleanBitmap bmap;
     
