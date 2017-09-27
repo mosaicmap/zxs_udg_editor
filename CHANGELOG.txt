@@ -1,0 +1,8 @@
+
+0.5
++ export to XBM (X11)
++ logging (SLF4J+JDK14)
++ changelog
+
+0.4 
+* first public version

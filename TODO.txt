@@ -1,5 +1,8 @@
 
 - GUI
+
+    - tlačítko na MainFrame, které otevře UdgFilePreviewFrame
+    - tlačítko "refresh" na UdgFilePreviewFrame
     
-    - při vyšším rozlišení displeje, lépe při vyšším DPI, zobrazovat náhledy v previewer větší
-    
+    - při vyšším DPI displeje zobrazovat náhledy na UdgFilePreviewFrame větší
+
