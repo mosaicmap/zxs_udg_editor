@@ -1,8 +1,11 @@
 
-- GUI
 
-    - tlačítko na MainFrame, které otevře UdgFilePreviewFrame
-    - tlačítko "refresh" na UdgFilePreviewFrame
+? rozdělit třídy do balíků  (gui,core,misc,?)
+
+- GUI:
+
+    ? tlačítko na MainFrame, které otevře UdgFilePreviewFrame
+    ? tlačítko "refresh" na UdgFilePreviewFrame
     
     - při vyšším DPI displeje zobrazovat náhledy na UdgFilePreviewFrame větší
 
