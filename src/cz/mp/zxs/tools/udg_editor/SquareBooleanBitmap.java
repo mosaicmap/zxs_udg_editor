@@ -26,8 +26,8 @@ public class SquareBooleanBitmap implements Cloneable {
     
     /** Osm bytů; celkem 8x8 bitů. */
     public static final int CHAR_SIZE = 8;
-    private static final int MAX_VALUE = 255; //(int) Math.pow(2, CHAR_SIZE) - 1;
-    private static final int DEFAULT_NUM_OF_CHARS = 1;
+    static final int MAX_VALUE = 255; //(int) Math.pow(2, CHAR_SIZE) - 1;
+    static final int DEFAULT_NUM_OF_CHARS = 1;
     /** 
      * Délka strany ve znacích 8x8. 
      * 1 pro 1x1, 2 pro 2x2, 3 pro 3x3, ... 
@@ -46,7 +46,8 @@ public class SquareBooleanBitmap implements Cloneable {
     
     /**
      * Pole reprezentující bitmapu.
-     * [x][y] = [sloupec][radek]
+     * [x][y] = [sloupec][radek].
+     * "true = 1; false = 0."
      */
     private boolean[][] bitmap;
     
@@ -137,13 +138,28 @@ public class SquareBooleanBitmap implements Cloneable {
     }
     
     /**
+     * 
+     * @return 
+     */
+    public boolean isEmpty() {
+        for (int x=0; x<=dimPxs-1; x++)  {
+            for (int y=0; y<=dimPxs-1; y++)  {
+                if (this.bitmap[x][y] == true) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    /**
      * Kontroluje zda lze číst nebo zapisovat ze zadaných souřadnic.
      * 
      * @param x
      * @param y 
      * @throws  IllegalArgumentException
      */
-    private void checkXY(int x, int y) {
+    void checkXY(int x, int y) {
         if (x < 0 || x >= dimPxs) {
             throw new IllegalArgumentException("x");
         }
@@ -469,6 +485,8 @@ public class SquareBooleanBitmap implements Cloneable {
         return result;
     }
         
+    static final String EOL = System.getProperty("line.separator");
+    
     /**
      * Získá data v jednoduchém formátu bitmapových obrázků XMB X11.
      * <p>
@@ -505,13 +523,13 @@ public class SquareBooleanBitmap implements Cloneable {
         }
         
         StringBuilder result = new StringBuilder(512);
-        result.append("#define ").append(name).append("_width ").append(dimPxs).append("\n");
-        result.append("#define ").append(name).append("_height ").append(dimPxs).append("\n");
+        result.append("#define ").append(name).append("_width ").append(dimPxs).append(EOL);
+        result.append("#define ").append(name).append("_height ").append(dimPxs).append(EOL);
         result.append("static unsigned char ").append(name).append("_bits[] = {");
         
         for (int row=0; row<dimPxs; row++)  {
             if (row % CHAR_SIZE == 0) {
-                result.append("\n  ");
+                result.append(EOL).append("  ");
             }
 
             final int[] binVals = new int[] { 1, 2, 4, 8, 16, 32, 64, 128 };
@@ -541,7 +559,7 @@ public class SquareBooleanBitmap implements Cloneable {
                 x++;
             }
         }
-        result.append("};").append("\n");
+        result.append("};").append(EOL);
         
         log.debug("size: " + result.length());
         return result.toString();
@@ -812,7 +830,5 @@ public class SquareBooleanBitmap implements Cloneable {
             System.out.println();
         }
     }
-    
-    // TODO jednotkové testy pro SquareBooleanBitmap
     
 }   // SquareBooleanBitmap.java
