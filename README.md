@@ -10,9 +10,9 @@ For more information about ZX Spectrum and UDG see:
 Java 7 or newer.
 
 ### How to Built
-1. install ''Java SE Development Kit (JDK)'' and install ''Netbeans IDE''
+1. install '''Java SE Development Kit (JDK)''' and install '''Netbeans IDE'''
 2. open project in Netbeans.
-4. select "Clean and build project" in menu "Run". Result should be in folders ''dist'', ''dist_zip''.
+4. select "Clean and build project" in menu "Run". Result should be in folders '''dist''', '''dist_zip'''.
 
 ### Screenshot
-![screenshot_1](src_graphics/screenshots/Screenshot_v0.4_1.png)
+![screenshot_1](src_graphics/screenshots/Screenshot_v0.5_1.png)
