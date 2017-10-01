@@ -7,6 +7,7 @@
 
 package cz.mp.zxs.tools.udg_editor;
 
+import static cz.mp.zxs.tools.udg_editor.Version.VERSION;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,26 +23,7 @@ public class Main {
         log = LoggerFactory.getLogger(Main.class);
     }
         
-    public static final String VERSION_SPEC = 
-            Main.class.getPackage().getSpecificationVersion(); // viz build.xml
-    public static final String VERSION_IMPL = 
-            Main.class.getPackage().getImplementationVersion(); // viz build.xml
-    public static final String VERSION;
-    static {
-        if (VERSION_SPEC == null || VERSION_SPEC.length() == 0) {
-            VERSION = "DEVEL";
-        }
-        else if (VERSION_IMPL == null || VERSION_IMPL.length() == 0) {
-            VERSION = VERSION_SPEC;
-        }
-        else {
-            VERSION = VERSION_SPEC + " (" + VERSION_IMPL + ")";
-        }
-    }
-    
-    /**
-     * 
-     */
+    /** */
     private static void printVersion() {
         System.out.println(VERSION); 
     }

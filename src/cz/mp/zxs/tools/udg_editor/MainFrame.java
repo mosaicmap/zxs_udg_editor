@@ -174,9 +174,9 @@ public class MainFrame extends JFrame {
     private void initAbout() {
         log.debug("");
         // (c) \u00A9 2017 Martin Pokorn\u00FD
-        aboutSelectableLabel.setText(" \u00A9 2017  Martin Pokorn\u00FD"
-                + "    MartinPokorny.czech@gmail.com"
-                + "    Version:" + Main.VERSION_SPEC + " ");
+        aboutSelectableLabel.setText(" \u00A9 2017 Martin Pokorn\u00FD"
+                + "   MartinPokorny.czech@gmail.com"
+                + "   Version:" + Version.VERSION_SPEC + " ");
         aboutSelectableLabel.setOpaque(false);
         aboutSelectableLabel.setEditable(false);        
         aboutSelectableLabel.setBackground(null);
