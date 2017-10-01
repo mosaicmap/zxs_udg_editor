@@ -71,7 +71,7 @@
 
     -->
     
-    <property name="version" value="0.5_devel"/>
+    <property name="version" value="0.5"/>
     
     <property name="build.dir" value="build"/>
     <property name="dist.dir" value="dist"/>
