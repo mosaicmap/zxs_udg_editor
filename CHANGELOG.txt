@@ -1,10 +1,10 @@
 
 0.5
 + export to XBM (X11)
-+ changelog
 > code quality improvements
     + logging (SLF4J+JDK14)
     + unit tests (JUnit 4)
++ changelog
 
 0.4 
 * first public version
