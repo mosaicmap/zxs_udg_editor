@@ -1,4 +1,7 @@
 
+0.5.1
+- bug fix - logging
+
 0.5
 + export to XBM (X11)
 > code quality improvements
