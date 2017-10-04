@@ -58,7 +58,9 @@ import org.slf4j.LoggerFactory;
 public class UdgFilePreviewFrame {
     private static final Logger log;
     static {
-        System.setProperty("java.util.logging.config.file", "logging.properties");
+        if (System.getProperty("java.util.logging.config.file") == null) {
+            System.setProperty("java.util.logging.config.file", "logging.properties");
+        }
         log = LoggerFactory.getLogger(UdgFilePreviewFrame.class);
         
         log.debug("start initialisation");
