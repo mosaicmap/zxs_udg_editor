@@ -1,6 +1,7 @@
 
 
-? rozdělit třídy do balíků  (gui,core,misc,?)
+- rozdělit třídy do balíků  (gui,core,misc,?)
+- FileChooserBuilder
 
 - GUI:
 
