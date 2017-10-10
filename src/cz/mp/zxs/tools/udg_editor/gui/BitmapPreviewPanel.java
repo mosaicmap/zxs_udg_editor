@@ -5,8 +5,9 @@
  *  charset: UTF-8
  */
 
-package cz.mp.zxs.tools.udg_editor;
+package cz.mp.zxs.tools.udg_editor.gui;
 
+import cz.mp.zxs.tools.udg_editor.SquareBooleanBitmap;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;

@@ -2,7 +2,7 @@
  * Images.java
  *
  */
-package cz.mp.zxs.tools.udg_editor;
+package cz.mp.zxs.tools.udg_editor.gui;
 
 import java.net.URL;
 import java.util.HashMap;

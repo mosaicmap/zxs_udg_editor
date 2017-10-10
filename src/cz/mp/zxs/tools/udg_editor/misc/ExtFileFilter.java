@@ -5,7 +5,7 @@
  *  charset: UTF-8
  */
 
-package cz.mp.zxs.tools.udg_editor;
+package cz.mp.zxs.tools.udg_editor.misc;
 
 import cz.mp.zxs.tools.udg_editor.utils.FileUtils;
 import java.io.File;

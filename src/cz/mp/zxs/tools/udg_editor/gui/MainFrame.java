@@ -5,8 +5,10 @@
  *  charset: UTF-8
  */
 
-package cz.mp.zxs.tools.udg_editor;
+package cz.mp.zxs.tools.udg_editor.gui;
 
+import cz.mp.zxs.tools.udg_editor.Version;
+import cz.mp.zxs.tools.udg_editor.misc.ExtFileFilter;
 import cz.mp.zxs.tools.udg_editor.utils.FileUtils;
 import cz.mp.zxs.tools.udg_editor.utils.GuiUtils;
 import java.awt.Component;

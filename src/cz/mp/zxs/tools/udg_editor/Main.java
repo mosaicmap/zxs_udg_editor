@@ -7,6 +7,7 @@
 
 package cz.mp.zxs.tools.udg_editor;
 
+import cz.mp.zxs.tools.udg_editor.gui.MainFrame;
 import static cz.mp.zxs.tools.udg_editor.Version.VERSION;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
