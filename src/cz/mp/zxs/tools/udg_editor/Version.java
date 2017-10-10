@@ -15,9 +15,9 @@ package cz.mp.zxs.tools.udg_editor;
 public final class Version {
     
     public static final String VERSION_SPEC = 
-            Main.class.getPackage().getSpecificationVersion(); // viz build.xml
+            Version.class.getPackage().getSpecificationVersion(); // viz build.xml
     public static final String VERSION_IMPL = 
-            Main.class.getPackage().getImplementationVersion(); // viz build.xml
+            Version.class.getPackage().getImplementationVersion(); // viz build.xml
     public static final String VERSION;
     static {
         if (VERSION_SPEC == null || VERSION_SPEC.length() == 0) {
