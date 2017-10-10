@@ -1,9 +1,10 @@
 
 
-- rozdělit třídy do balíků  (gui,core,misc,?)
-- FileChooserBuilder
+? FileChooserBuilder / Třída kde se bude jen ukládat XBM  ?
 
 - GUI:
+
+    - kreslení bodů tažením
 
     ? tlačítko na MainFrame, které otevře UdgFilePreviewFrame
     ? tlačítko "refresh" na UdgFilePreviewFrame
