@@ -103,6 +103,7 @@ public class FileUtils {
     
     /**
      * Testuje, zda má zadaný soubor jednu ze zadaných přípon.
+     * Ignoruje velikost písmen.
      * 
      * @param fileName
      * @param exts
