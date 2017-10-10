@@ -8,6 +8,7 @@
 package cz.mp.zxs.tools.udg_editor;
 
 import cz.mp.zxs.tools.udg_editor.utils.FileUtils;
+import cz.mp.zxs.tools.udg_editor.utils.GuiUtils;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -243,7 +244,7 @@ public class MainFrame extends JFrame {
         int r=0;
         Container c = getContentPane();
         
-        dataToBitmapPanel.add(createMinWidthFoobar(150,250), new GridBagConstraints(1,0,1,1,0.0,0.0,
+        dataToBitmapPanel.add(GuiUtils.createMinWidthFoobar(150,250), new GridBagConstraints(1,0,1,1,0.0,0.0,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, ins0000, 0,0));
         dataToBitmapPanel.add(dataToBitmapScrollPane, new GridBagConstraints(1,1,1,2,1.0,1.0,
                 GridBagConstraints.WEST, GridBagConstraints.BOTH, ins5555, 0,0));
@@ -260,7 +261,7 @@ public class MainFrame extends JFrame {
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, ins5555, 0,0));
         r+=5;
 
-        bitmapToDataPanel.add(createMinWidthFoobar(150,250), new GridBagConstraints(2,0,1,1,0.0,0.0,
+        bitmapToDataPanel.add(GuiUtils.createMinWidthFoobar(150,250), new GridBagConstraints(2,0,1,1,0.0,0.0,
                 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, ins5555, 0,0));
         bitmapToDataPanel.add(bitmapToDataTextAreaAndClipboardBtn, new GridBagConstraints(1,1,1,1,0.0,0.0,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, ins5555, 0,0));
@@ -584,24 +585,6 @@ public class MainFrame extends JFrame {
     public void setVisible(boolean b) {
         log.info("" + b);
         super.setVisible(b);
-    }
-
-    
-    /**
-     * Vrátí komponentu, která má jen min šířku.
-     * Pomůcka pro zajištění min. velikosti komponenty v GridBagLayoutu.
-     *
-     * @param minWidth
-     * @param prefferWidth
-     * @return
-     */
-    public static JLabel createMinWidthFoobar(int minWidth, int prefferWidth) {
-        JLabel label = new JLabel("");
-        label.setMinimumSize(new Dimension(minWidth, 0));
-        if (prefferWidth >= minWidth) {
-            label.setPreferredSize(new Dimension(prefferWidth, 0));
-        }
-        return label;
     }
 
 }   // MainFrame.java
