@@ -2,6 +2,8 @@
 
 ? FileChooserBuilder / Třída kde se bude jen ukládat XBM  ?
 
+? 'uhezčit' ikonu
+
 - GUI:
 
     - kreslení bodů tažením
