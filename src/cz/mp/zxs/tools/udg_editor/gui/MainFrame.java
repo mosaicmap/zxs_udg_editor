@@ -7,6 +7,7 @@
 
 package cz.mp.zxs.tools.udg_editor.gui;
 
+import cz.mp.zxs.tools.udg_editor.SquareBooleanBitmap;
 import cz.mp.zxs.tools.udg_editor.Version;
 import cz.mp.zxs.tools.udg_editor.misc.ExtFileFilter;
 import cz.mp.zxs.tools.udg_editor.utils.FileUtils;
@@ -66,6 +67,8 @@ public class MainFrame extends JFrame {
     private static final Logger log = LoggerFactory.getLogger(MainFrame.class);
     static {
         log.debug("start initialisation");
+        
+        //UIManager.put("swing.aatext", true);
     }
     
     private static MainFrame instance = null;
