@@ -1,13 +1,21 @@
 
+
+
+-----------------
 0.5.1
-- bug fix - logging
 
+- bug fix: logging
+
+-----------------
 0.5
-+ export to XBM (X11)
-> code quality improvements
-    + logging (SLF4J+JDK14)
-    + unit tests (JUnit 4)
-+ changelog
 
+- export to XBM (X11)
+- code quality improvements
+    - logging (SLF4J+JDK14)
+    - unit tests (JUnit 4)
+- file Changelog
+
+-----------------
 0.4 
-* first public version
+
+- first public version
