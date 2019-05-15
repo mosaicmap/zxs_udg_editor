@@ -1,15 +1,79 @@
 
+! převod projektu na  maven  projekt
 
-? FileChooserBuilder / Třída kde se bude jen ukládat XBM  ?
 
-? 'uhezčit' ikonu
+? FileChooserBuilder
+
 
 - GUI:
 
-    - kreslení bodů tažením
-
-    ? tlačítko na MainFrame, které otevře UdgFilePreviewFrame
-    ? tlačítko "refresh" na UdgFilePreviewFrame
+    ? "uhezčit" ikonu hlavního okna
     
-    - při vyšším DPI displeje zobrazovat náhledy na UdgFilePreviewFrame větší
+    ! kreslení bodů tažením
+
+    - přidat tlačítka pro "posun s rotací"
+    
+
+    ? tlačítko na MainFrame, které otevře UdgFilePreviewFrame    
+    
+    - UdgFilePreviewFrame
+    
+        - přidat tlačítko "refresh"
+        - (soubor se zdá se zamyká -> nezamykat)
+    
+        - label "Cathegory" -> label  "Game or application"
+        
+        ? "Previewer" přejmenovat na "Examples Previewer" ?
+        
+            
+    - při vyšším DPI displeje zobrazovat náhledy na UdgFilePreviewFrame 
+      ve větším zvětšení
+
+
+    ! záložka  UDG
+        
+        - řada s 21 (19) znaky
+        
+        - export do 
+            - schránky jako DATA
+            - schránky jako defb [dec] 
+            - schránky jako defb [hex]
+            - XBM
+            - BIN
+            - TAP
+                - použít  zxs_data2tap  jako knihovnu
+                ? možnost zvolit zda uložit  21 nebo 19 znaků ?? jako kombo ??
+
+        ?? umožnit náhled složený z více znaků ? Jak udělat ?
+
+        ?? jak načítat / importovat všechna UDG ?
+            ? z BIN ?
+                    
+    
+    ! záložka 1x1 a 2x2
+    
+        ?? "1" přejmenovat na "Single char" ?
+    
+        - spodní text. oblast s Daty nahradit nějakou komponentou pro export
+            ?? tlačítko "Kopírovat do schránky jako data" a kombo "Export" ??  
+            
+            - export do 
+                - schránky jako DATA
+                - schránky jako defb [dec] 
+                - schránky jako defb [hex]
+                - XBM
+                - BIN
+                - TAP
+                    - použít  zxs_data2tap  jako knihovnu
+                            
+        ?? import z XBM ?    
+        ?? import z BIN ?
+
+
+    ?? záložka  FontEdit   ---  později, až budu mít záložku  UDG
+
+        - jako záložka UDG, ale s fontem
+        - předvyplnit default. font
+
+    
 
